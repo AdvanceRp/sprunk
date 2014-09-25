@@ -1,4 +1,4 @@
 sprunk
 ======
 Sprunk System
-By Nikifor
+by Ferjkee (Nikifor), 2014
