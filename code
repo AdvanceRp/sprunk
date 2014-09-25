@@ -1,5 +1,5 @@
 #include <a_samp>
-
+// by Ferjkee (Nikifor), 2014
 forward SPRUNK(playerid);
 
 public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
