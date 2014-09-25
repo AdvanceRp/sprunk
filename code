@@ -1,0 +1,44 @@
+#include <a_samp>
+
+forward SPRUNK(playerid);
+
+public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
+{
+	new Float: health;
+	GetPlayerHealth(playerid, health);
+	if(newkeys & KEY_WALK)
+	{
+		if(IsPlayerInRangeOfPoint(playerid, range, x, y, z) && GetPVarInt(playerid, "BATM") == 0 && health <= 100)
+		{
+			if(GetPVarInt(playerid, "Banka") == 1)
+			{
+				SendClientMessage(playerid, -1, "У тебя уже есть банка газировки, выкинь её (F).");
+				return 1;
+			}
+		    	ApplyAnimation(playerid, "VENDING", "VEND_USE", 4.1, 0, 1, 1, 0, 0, 1);
+		    	SetTimerEx("SPRUNK", 2500, false, "i", playerid);
+		    	GameTextForPlayer(playerid, "WAIT..", 5000, 1);
+			SetPVarInt(playerid, "BATM", 1);	
+		}
+	}
+	if(newkeys == KEY_FIRE && GetPVarInt(playerid, "Banka") == 1)
+	{
+		if(health >= 100)
+		{
+			send(playerid, grey, "Выкинь стакан от газировки (F), у тебя полное здоровье.");
+			return 1;
+		}
+		GameTextForPlayer(playerid, "~w~HP +~g~10", 3000, 1);
+		SetPlayerHealth(playerid, health + 10.0);
+	}
+    	if(newkeys == 16 && GetPVarInt(playerid, "Banka") == 1) DeletePVar(playerid, "Banka");
+	return 1;
+}
+
+public SPRUNK(playerid)
+{
+	SetPlayerSpecialAction(playerid, SPECIAL_ACTION_DRINK_SPRUNK);
+	DeletePVar(playerid, "BATM"), SetPVarInt(playerid, "Banka", 1);
+	SendClientMessage(playerid, -1, "Ты купил банку газировки. {7bff02}ЛКМ{ffffff} - попить, {7bff02}F{ffffff} - выкинуть.");
+	return 1;
+}
